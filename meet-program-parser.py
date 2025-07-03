@@ -17,9 +17,10 @@ secondIndent = "    "
 
 # This doesn't work for events that don't have age groups: "#1 Girls 200 Yard Freestyle"
 #!eventPattern = r"#(?P<eventNum>[0-9]+) (?P<gender>\w+) (?P<ageGroup>.+) (?P<distance>[0-9]+ \w+) (?P<stroke>.*)"
-eventPattern = r"#(?P<eventNum>[0-9]+) (?P<eventName>.+)"
+eventPattern = r"^#(?P<eventNum>[0-9]+) (?P<eventName>.+)"
 headerPattern = r"(?P<header>Team|Relay|Lane|Seed Time|Age|Name)"
 heatPattern = r"Heat *(?P<heatNum>[0-9]+) of (?P<numHeats>[0-9]+) *(?P<stage>\w+)"
+heatContinuationPattern = r"Heat *(?P<heatNum>[0-9]+)"
 relayNamePattern = r"(?P<name>[\w ,\.]+) (?P<age>[0-9]+)"
 titlePattern = r".*Meet Program.*"
 
@@ -111,6 +112,18 @@ for page in doc:
 						# Individual line
 						team, seedTime, age, name, lane = fields[:5]
 						print(firstIndent, lane, name, age, team, seedTime)
+					elif len(fields) == 7:
+						# Heat heading (for event that started on previous page)
+						heatStr, team, seedTime, age, name, lane = fields[:6]
+						matches = re.findall(heatContinuationPattern, heatStr)
+						if matches != []:
+							heatNum = matches[0]
+							print()
+							print("Heat {} of {}".format(heatNum, numHeats))
+						
+						# Individual line
+						print(firstIndent, lane, name, age, team, seedTime)
+						
 					else:
 						#!print(data.replace("\n", "\\n"))
 						print(data.split('\n'))
