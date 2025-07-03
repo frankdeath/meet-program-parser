@@ -84,28 +84,29 @@ for page in doc:
 						print("Error! Can't parse: {}".format(data))
 					
 				else:
-					matches = re.findall(relayNamePattern, data)
-					if matches != []:
-						# Relay name line
-						#!print(matches)
-						for match in matches:
-							name, age = match
-							print(secondIndent, name, age)
-						#!lastName, firstName, 
+					#!print(data.replace("\n", "\\n"))
+					#!print(data.split('\n'))
+					fields = data.split('\n')
+					
+					if len(fields) == 3:
+						# Relay name lines
+						matches = re.findall(relayNamePattern, data)
+						if matches != []:
+							# Relay name line
+							#!print(matches)
+							for match in matches:
+								name, age = match
+								print(secondIndent, name, age)
+					
+					elif len(fields) == 5:
+						# Relay team line
+						relay, seedTime, team, lane = fields[:4]
+						print(firstIndent, lane, team, relay, seedTime)
+					elif len(fields) == 6:
+						# Individual line
+						team, seedTime, age, name, lane = fields[:5]
+						print(firstIndent, lane, name, age, team, seedTime)
 					else:
 						#!print(data.replace("\n", "\\n"))
-						#!print(data.split('\n'))
-						fields = data.split('\n')
-						
-						if len(fields) == 5:
-							# Relay team line
-							relay, seedTime, team, lane = fields[:4]
-							print(firstIndent, lane, team, relay, seedTime)
-						elif len(fields) == 6:
-							# Individual line
-							team, seedTime, age, name, lane = fields[:5]
-							print(firstIndent, lane, name, age, team, seedTime)
-						else:
-							#!print(data.replace("\n", "\\n"))
-							print(data.split('\n'))
+						print(data.split('\n'))
 				
