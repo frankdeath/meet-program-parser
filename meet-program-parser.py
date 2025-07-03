@@ -11,6 +11,11 @@ heatNum = None
 numHeats = None
 stage = None
 lane = None
+team = None
+relay = None
+name = None
+age = None
+seedTime = None
 
 firstIndent = "  "
 secondIndent = "    "
