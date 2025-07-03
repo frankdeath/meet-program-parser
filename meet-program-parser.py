@@ -31,7 +31,10 @@ def main(args):
 	# Display arguments
 	#!print(args)
 	displayAll = args.a
-	nameToDisplay = args.n
+	if args.n != None:
+		nameToDisplay = args.n
+	else:
+		nameToDisplay = "?"
 	
 	# Open the PDF
 	doc = fitz.open(args.filename)
@@ -96,6 +99,8 @@ def main(args):
 							team, seedTime, age, name, lane = fields[1:6]
 							if displayAll:
 								print(firstIndent, lane, name, age, team, seedTime)
+							if nameToDisplay in name:
+								print(eventNum, heatNum, lane, eventName)
 						elif len(fields) == 6:
 							# For relays team = relay and name = team
 							relay, seedTime, team, lane = fields[1:5]
@@ -120,7 +125,8 @@ def main(args):
 									name, age = match
 									if displayAll:
 										print(secondIndent, name, age)
-						
+									if nameToDisplay in name:
+										print(eventNum, heatNum, lane, eventName)
 						elif len(fields) == 5:
 							# Relay team line
 							relay, seedTime, team, lane = fields[:4]
@@ -131,6 +137,8 @@ def main(args):
 							team, seedTime, age, name, lane = fields[:5]
 							if displayAll:
 								print(firstIndent, lane, name, age, team, seedTime)
+							if nameToDisplay in name:
+								print(eventNum, heatNum, lane, eventName)
 						elif len(fields) == 7:
 							# Heat heading (for event that started on previous page)
 							heatStr, team, seedTime, age, name, lane = fields[:6]
@@ -144,6 +152,8 @@ def main(args):
 							# Individual line
 							if displayAll:
 								print(firstIndent, lane, name, age, team, seedTime)
+							if nameToDisplay in name:
+								print(eventNum, heatNum, lane, eventName)
 							
 						else:
 							#!print(data.replace("\n", "\\n"))
@@ -160,7 +170,7 @@ if __name__ == '__main__':
 	
 	parser.add_argument("filename", action="store", default=None, help="Meet Program PDF")
 	parser.add_argument("-a", action="store_true", help="Show all entries")
-	parser.add_argument("-n", action="store_true", help="Show only specified name")
+	parser.add_argument("-n", action="store", help="Show only specified name")
 	
 	args = parser.parse_args(sys.argv[1:])
 	
