@@ -21,6 +21,7 @@ eventPattern = r"#(?P<eventNum>[0-9]+) (?P<eventName>.+)"
 headerPattern = r"(?P<header>Team|Relay|Lane|Seed Time|Age|Name)"
 heatPattern = r"Heat *(?P<heatNum>[0-9]+) of (?P<numHeats>[0-9]+) *(?P<stage>\w+)"
 relayNamePattern = r"(?P<name>[\w ,\.]+) (?P<age>[0-9]+)"
+titlePattern = r".*Meet Program.*"
 
 for page in doc:
 	
@@ -33,9 +34,13 @@ for page in doc:
 		# We only care about the string at index 4
 		data = row[4]
 		
-		#!print(data)
+		#!print(data.replace("\n", "\\n"))
 		#!print()
 		
+		matches = re.findall(titlePattern, data)
+		if matches != []:
+			# Ignore the title line
+			continue
 		
 		matches = re.findall(eventPattern, data)
 		if matches != []:
