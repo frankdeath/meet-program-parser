@@ -27,6 +27,12 @@ heatContinuationPattern = r"Heat *(?P<heatNum>[0-9]+)"
 relayNamePattern = r"(?P<name>[\w ,\.]+) (?P<age>[0-9]+)"
 titlePattern = r".*Meet Program.*"
 
+
+def printEventLine(e, h, l, eName):
+	#
+	print(f"{f'#{e}':>3} H{h} L{l} - {eName}")
+
+
 def main(args):
 	# Display arguments
 	#!print(args)
@@ -100,7 +106,8 @@ def main(args):
 							if displayAll:
 								print(firstIndent, lane, name, age, team, seedTime)
 							if nameToDisplay in name:
-								print(eventNum, heatNum, lane, eventName)
+								#!print(eventNum, heatNum, lane, eventName)
+								printEventLine(eventNum, heatNum, lane, eventName)
 						elif len(fields) == 6:
 							# For relays team = relay and name = team
 							relay, seedTime, team, lane = fields[1:5]
@@ -126,7 +133,8 @@ def main(args):
 									if displayAll:
 										print(secondIndent, name, age)
 									if nameToDisplay in name:
-										print(eventNum, heatNum, lane, eventName)
+										#!print(eventNum, heatNum, lane, eventName)
+										printEventLine(eventNum, heatNum, lane, eventName)
 						elif len(fields) == 5:
 							# Relay team line
 							relay, seedTime, team, lane = fields[:4]
@@ -138,7 +146,8 @@ def main(args):
 							if displayAll:
 								print(firstIndent, lane, name, age, team, seedTime)
 							if nameToDisplay in name:
-								print(eventNum, heatNum, lane, eventName)
+								#!print(eventNum, heatNum, lane, eventName)
+								printEventLine(eventNum, heatNum, lane, eventName)
 						elif len(fields) == 7:
 							# Heat heading (for event that started on previous page)
 							heatStr, team, seedTime, age, name, lane = fields[:6]
@@ -153,7 +162,8 @@ def main(args):
 							if displayAll:
 								print(firstIndent, lane, name, age, team, seedTime)
 							if nameToDisplay in name:
-								print(eventNum, heatNum, lane, eventName)
+								#!print(eventNum, heatNum, lane, eventName)
+								printEventLine(eventNum, heatNum, lane, eventName)
 							
 						else:
 							#!print(data.replace("\n", "\\n"))
